@@ -12,10 +12,7 @@ public readonly struct Bet(Guy guy, int amount, string dogId)
         int winAmount = amount * AmountMultiplier;
         
         Console.WriteLine("--------------------------");
-        Console.WriteLine
-        (
-            $"{dog.Id} has won the race, making {guy.Name} the winner. He has won {winAmount}."
-        );
+        Console.WriteLine($"{dog.Id} has won the race, making {guy.Name} the winner. He has won {winAmount}.");
         guy.GiveMoney(winAmount);
     }
 }
