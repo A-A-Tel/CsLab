@@ -5,7 +5,7 @@ public class Dog
     private const int MinSpeed = 5;
     private const int MaxSpeed = 20;
 
-    public int Distance { get; private set; } = 0;
+    public int Distance { get; private set; }
     
     private readonly Random _random = new Random();
     
