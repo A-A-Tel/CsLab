@@ -47,16 +47,27 @@ public class Track
             wonDogs.Add(dog);
         }
 
-        if (!hasWon) return;
-        Console.WriteLine("--------------------------");
-        _timer.Stop();
+        if (hasWon) StopRace(wonDogs);
 
-        // Ik weet dat u dit niet leuk vind, maar ik was gewoon nieuwsgierig of dit zou werken of niet.
-        foreach (var guy in _guys) foreach (Dog dog in wonDogs) guy.Bet.Payout(dog);
     }
 
     private void StopRace(ArrayList dogs)
     {
+        _timer.Stop();
+
+        Dog? wonDog = null;
+        int wonDistance = 0;
+
+        foreach (Dog dog in dogs)
+        {
+            if (dog.Distance > wonDistance)
+            {
+                wonDistance = dog.Distance;
+                wonDog = dog;
+            }
+        }
         
+        // Ik weet dat u dit niet leuk vind, maar ik was gewoon nieuwsgierig of dit zou werken of niet.
+        foreach (var guy in _guys) guy.Bet.Payout(wonDog);
     }
 }
