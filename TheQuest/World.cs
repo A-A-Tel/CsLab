@@ -1,3 +1,5 @@
+using TheQuest.Tiles;
+
 namespace TheQuest;
 
 public class World
