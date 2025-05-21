@@ -25,9 +25,10 @@ public class Track
 
     public void StartRace()
     {
-        Console.WriteLine("Starting race, input any key to stop the program.");
+        Console.WriteLine("Starting race...");
         _timer.Start();
-        Console.ReadLine();
+        
+        while(_timer.Enabled) Console.ReadLine();
     }
 
     private void CycleDogs(object? source, ElapsedEventArgs? e)
@@ -66,8 +67,12 @@ public class Track
                 wonDog = dog;
             }
         }
+
+        Console.WriteLine();
         
         // Ik weet dat u dit niet leuk vind, maar ik was gewoon nieuwsgierig of dit zou werken of niet.
         foreach (var guy in _guys) guy.Bet.Payout(wonDog);
+
+        Console.WriteLine("Press any key to stop.");
     }
 }
