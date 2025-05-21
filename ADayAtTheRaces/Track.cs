@@ -1,12 +1,12 @@
+using System.Collections;
+
 namespace ADayAtTheRaces;
 
 using System.Timers;
 
-
-
 public class Track
 {
-    private const int TrackLength = 500;
+    private const int TrackLength = 250;
 
     private readonly Timer _timer = new(1000);
 
@@ -23,38 +23,40 @@ public class Track
         _timer.Enabled = true;
     }
 
+    public void StartRace()
+    {
+        Console.WriteLine("Starting race, input any key to stop the program.");
+        _timer.Start();
+        Console.ReadLine();
+    }
+
     private void CycleDogs(object? source, ElapsedEventArgs? e)
     {
         bool hasWon = false;
-        Dog[] wonDogs = new Dog[_dogs.Length];
-        
+        ArrayList wonDogs = new();
+
+        Console.WriteLine("--------------------------");
         foreach (var dog in _dogs)
         {
             dog.Run();
+            Console.WriteLine($"Dog {dog.Id}: {dog.Distance}/{TrackLength}");
 
-            if (dog.Distance >= TrackLength)
-            {
-                hasWon = true;
-            }
+            if (dog.Distance < TrackLength) continue;
+            
+            hasWon = true;
+            wonDogs.Add(dog);
         }
 
-        if (hasWon)
-        {
-            _timer.Stop();
+        if (!hasWon) return;
+        Console.WriteLine("--------------------------");
+        _timer.Stop();
 
-            foreach (var guy in _guys)
-            {
-                foreach (var dog in wonDogs)
-                {
-                    guy.Bet.Payout(dog);
-                }
-            }
-        }
+        // Ik weet dat u dit niet leuk vind, maar ik was gewoon nieuwsgierig of dit zou werken of niet.
+        foreach (var guy in _guys) foreach (Dog dog in wonDogs) guy.Bet.Payout(dog);
     }
 
-    public void StartRace()
+    private void StopRace(ArrayList dogs)
     {
-        Console.WriteLine("Starting race");
-        _timer.Start();
+        
     }
 }

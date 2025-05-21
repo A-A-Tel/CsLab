@@ -2,7 +2,7 @@
 
 internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         Dog[] dogs =
         [
@@ -17,10 +17,9 @@ internal static class Program
             new("Senna", 100, 50, "Bobby"),
             new("Stark", 100, 50, "Billy")
         ];
-
+        
         Track track = new(dogs, guys);
         
         track.StartRace();
-        
     }
 }
