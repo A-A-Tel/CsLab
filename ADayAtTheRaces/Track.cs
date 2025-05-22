@@ -6,14 +6,12 @@ using System.Timers;
 
 public class Track
 {
-    private const int TrackLength = 250;
-
     private readonly Timer _timer = new(1000);
 
-    private readonly Dog[] _dogs;
+    private readonly Greyhound[] _dogs;
     private readonly Guy[] _guys;
 
-    public Track(Dog[] dogs, Guy[] guys)
+    public Track(Greyhound[] dogs, Guy[] guys)
     {
         _dogs = dogs;
         _guys = guys;
@@ -33,49 +31,27 @@ public class Track
 
     private void CycleDogs(object? source, ElapsedEventArgs? e)
     {
-        bool hasWon = false;
-        ArrayList wonDogs = new();
-
-        Console.WriteLine("--------------------------");
-        foreach (var dog in _dogs)
+        Console.WriteLine("-------------------------");
+        foreach (Greyhound dog in _dogs)
         {
-            dog.Run();
-            Console.WriteLine($"Dog {dog.Id}: {dog.Distance}/{TrackLength}");
-
-            if (dog.Distance < TrackLength) continue;
-            
-            hasWon = true;
-            wonDogs.Add(dog);
+            if (dog.Run())
+            {
+                StopRace(dog);
+                break;
+            }
+            Console.WriteLine($"Dog {dog.Id}: {dog.Location}/{Greyhound.TrackLength}");
         }
-
-        if (hasWon) StopRace(wonDogs);
-
     }
 
-    private void StopRace(ArrayList dogs)
+    private void StopRace(Greyhound dog)
     {
         _timer.Stop();
+        Console.WriteLine("-------------------------");
+        Console.WriteLine($"Dog {dog.Id} has won the Race! ({dog.Location}/{Greyhound.TrackLength})");
 
-        Dog? wonDog = null;
-        int wonDistance = 0;
-
-        foreach (Dog dog in dogs)
+        foreach (Guy guy in _guys)
         {
-            if (dog.Distance > wonDistance)
-            {
-                wonDistance = dog.Distance;
-                wonDog = dog;
-            }
+            guy.Collect(dog.Id);
         }
-
-        Console.WriteLine();
-        
-        // Ik weet dat u dit niet leuk vind, maar ik was gewoon nieuwsgierig of dit zou werken of niet.
-        foreach (var guy in _guys)
-        {
-            guy.Bet.Payout(wonDog);
-        }
-
-        Console.WriteLine("Press enter to stop.");
     }
 }

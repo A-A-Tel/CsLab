@@ -1,19 +1,29 @@
+using System.Globalization;
+
 namespace ADayAtTheRaces;
 
-public class Bet {
+public class Bet
+{
+    private const int BetMultiplier = 0;
+    
     public int Amount;
     public int Dog;
     public Guy Bettor;
-    
-    public string GetDescription() {
-        // Return a string that says who placed the bet, how much
-        // cash was bet, and which dog he bet on ("Joe bets 8 on
-        // dog #4"). If the amount is zero, no bet was placed
-        // ("Joe hasn’t placed a bet").
+
+    public Bet(Guy bettor)
+    {
+        Bettor = bettor;
     }
-    public int PayOut(int winner) {
-        // The parameter is the winner of the race. If the dog won,
-        // return the amount bet. Otherwise, return the negative of
-        // the amount bet.
+
+    public string GetDescription()
+    {
+        return Amount == 0
+            ? $"{Bettor.Name} has not placed a bet."
+            : $"{Bettor.Name} has placed a bet of {Amount} on dog number {Dog}.";
+    }
+
+    public int PayOut(int winner)
+    {
+        return winner == Dog ? Amount * BetMultiplier : -Amount;
     }
 }
