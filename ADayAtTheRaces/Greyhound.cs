@@ -2,7 +2,6 @@ namespace ADayAtTheRaces;
 
 public class Greyhound
 {
-    public const int TrackLength = 250;
     
     private const int MinSpeed = 5;
     private const int MaxSpeed = 20;
@@ -10,6 +9,7 @@ public class Greyhound
     public int Id;
     public int Location; 
     public Random Randomizer = new();
+    public int TrackLength;
 
     public Greyhound(int id)
     {

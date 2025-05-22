@@ -1,11 +1,10 @@
-using System.Collections;
-
 namespace ADayAtTheRaces;
 
 using System.Timers;
 
 public class Track
 {
+    public const int TrackLength = 500;
     private readonly Timer _timer = new(1000);
 
     private readonly Greyhound[] _dogs;
@@ -19,6 +18,11 @@ public class Track
         _timer.Elapsed += CycleDogs;
         _timer.AutoReset = true;
         _timer.Enabled = true;
+
+        foreach (Greyhound dog in dogs)
+        {
+            dog.TrackLength = TrackLength;
+        }
     }
 
     public void StartRace()
@@ -39,7 +43,7 @@ public class Track
                 StopRace(dog);
                 break;
             }
-            Console.WriteLine($"Dog {dog.Id}: {dog.Location}/{Greyhound.TrackLength}");
+            Console.WriteLine($"Dog {dog.Id}: {dog.Location}/{TrackLength}");
         }
     }
 
@@ -47,7 +51,7 @@ public class Track
     {
         _timer.Stop();
         Console.WriteLine("-------------------------");
-        Console.WriteLine($"Dog {dog.Id} has won the Race! ({dog.Location}/{Greyhound.TrackLength})");
+        Console.WriteLine($"Dog {dog.Id} has won the Race! ({dog.Location}/{TrackLength})");
 
         foreach (Guy guy in _guys)
         {
