@@ -1,24 +1,18 @@
 namespace ADayAtTheRaces;
 
-public class Dog
+public class Greyhound
 {
+    private const int TrackLength = 250;
     private const int MinSpeed = 5;
     private const int MaxSpeed = 20;
 
-    public int Distance { get; private set; }
-    
-    private readonly Random _random = new Random();
-    
-    
-    public string Id { get; }
+    public int StartingPosition = 0;
+    public int Location = 0; 
+    public Random Randomizer = new();
 
-    public Dog(string id)
+    public bool Run()
     {
-        Id = id;
+        Location += Randomizer.Next(MinSpeed, MaxSpeed);
+        return Location >= TrackLength;
     }
-
-    public void Run()
-    {
-        Distance += _random.Next(MinSpeed, MaxSpeed);
-    }
-} 
+}

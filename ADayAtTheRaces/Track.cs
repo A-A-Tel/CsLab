@@ -71,8 +71,11 @@ public class Track
         Console.WriteLine();
         
         // Ik weet dat u dit niet leuk vind, maar ik was gewoon nieuwsgierig of dit zou werken of niet.
-        foreach (var guy in _guys) guy.Bet.Payout(wonDog);
+        foreach (var guy in _guys)
+        {
+            guy.Bet.Payout(wonDog);
+        }
 
-        Console.WriteLine("Press any key to stop.");
+        Console.WriteLine("Press enter to stop.");
     }
 }

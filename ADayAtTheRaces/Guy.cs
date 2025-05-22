@@ -1,21 +1,20 @@
 namespace ADayAtTheRaces;
 
-public class Guy
-{
-    public string Name { get; private set; }
+public class Guy {
+    public string Name; 
+    public Bet MyBet;
+    public int Cash;
 
-    public Bet Bet { get; private set; }
-    private int _money;
-
-    public Guy(string name, int money, int betAmount, string dogId)
+    public void ClearBet()
     {
-        Name = name;
-        _money = money - betAmount;
-        Bet = new Bet(this, betAmount, dogId);
+        
     }
-
-    public void GiveMoney(int amount)
+    public bool PlaceBet(int betAmount, int dogToWin) 
     {
-        _money += amount;
+        
     }
+    public void Collect(int winner) 
+    { 
+        
+    } 
 }

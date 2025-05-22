@@ -6,7 +6,7 @@ public abstract class Tile
     
     public int[] Location { get; private set; }
     
-    public Tile(int x, int y)
+    protected Tile(int x, int y)
     {
         Location = [x, y];
     }
@@ -14,4 +14,6 @@ public abstract class Tile
     public abstract void EnterAction(Player player);
     
     public abstract void RewardPlayer(Player player);
+    
+    
 }
