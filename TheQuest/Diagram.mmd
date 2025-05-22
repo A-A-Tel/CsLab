@@ -1,0 +1,15 @@
+classDiagram
+    class Game {
+        <<class>>
+        +bool IsActive
+        -World _world
+        -Player player
+    }
+    class Player {
+        <<abstract>>
+        !-int MaxHealth
+        +string Name
+        +int Health
+        
+    }
+    
