@@ -2,10 +2,10 @@ namespace TheQuest.Tiles;
 
 public abstract class Tile
 {
-    public abstract bool IsEnterable { get; }
-    
     public int[] Location { get; private set; }
     
+    public abstract bool IsEnterable { get; }
+
     protected Tile(int x, int y)
     {
         Location = [x, y];

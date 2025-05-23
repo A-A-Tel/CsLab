@@ -13,9 +13,6 @@ public class World
         {
             tiles[i] = new Tile[height];
         }
-        
-        
-        
         Tiles = tiles;
     }
 }

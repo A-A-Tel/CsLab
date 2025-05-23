@@ -1,15 +1,58 @@
 classDiagram
+
+    Game --> Player
+    Game --> World
+
+    World --> Tile
+
+    Entity --> Enemy
+    Entity --> Player
+    
+    
     class Game {
         <<class>>
+        
         +bool IsActive
         -World _world
         -Player player
     }
     class Player {
         <<abstract>>
-        !-int MaxHealth
+        
+    }
+    class World {
+        <<class>>
+        +Tile[][] Tiles
+    }
+    class Tile {
+        <<abstract>>
+        
+        +int[] Location
+        ?+bool IsEnterable
+        
+        ?+void EnterAction(Player)
+        ?+void RewardPlayer(Player)
+    }
+    class Weapon {
+        <<abstract>>
+        
+    }
+    class Spell {
+        <<abstract>>
+        
+    }
+    class Buff {
+        <<abstract>>
+        
+    }
+    class Entity {
+        <<abstract>>
+        
         +string Name
         +int Health
+        +int[2] Location
         
+        
+        +int MaxHealth
     }
     
