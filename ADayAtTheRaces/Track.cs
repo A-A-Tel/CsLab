@@ -1,24 +1,23 @@
-using System.Collections;
+using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace ADayAtTheRaces;
-
-using System.Timers;
 
 public class Track
 {
     private const int TrackLength = 250;
+    private readonly Guy[] _guys;
+
+    private readonly Greyhound[] _hounds;
 
     private readonly Timer _timer = new(1000);
 
-    private readonly Dog[] _dogs;
-    private readonly Guy[] _guys;
-
-    public Track(Dog[] dogs, Guy[] guys)
+    public Track(Greyhound[] hounds, Guy[] guys)
     {
-        _dogs = dogs;
+        _hounds = hounds;
         _guys = guys;
 
-        _timer.Elapsed += CycleDogs;
+        _timer.Elapsed += CycleHounds;
         _timer.AutoReset = true;
         _timer.Enabled = true;
     }
@@ -27,51 +26,37 @@ public class Track
     {
         Console.WriteLine("Starting race...");
         _timer.Start();
-        
-        while(_timer.Enabled) Console.ReadLine();
+
+        foreach (Greyhound hound in _hounds) hound.ResetDistance();
+
+        while (_timer.Enabled) Console.ReadLine();
     }
 
-    private void CycleDogs(object? source, ElapsedEventArgs? e)
+    private void CycleHounds(object? source, ElapsedEventArgs? e)
     {
         bool hasWon = false;
-        ArrayList wonDogs = new();
 
         Console.WriteLine("--------------------------");
-        foreach (var dog in _dogs)
+        foreach (Greyhound hound in _hounds)
         {
-            dog.Run();
-            Console.WriteLine($"Dog {dog.Id}: {dog.Distance}/{TrackLength}");
+            hound.Run();
+            Console.WriteLine($"Dog {hound.Id}: {hound.Distance}/{TrackLength}");
 
-            if (dog.Distance < TrackLength) continue;
-            
+            if (hound.Distance < TrackLength) continue;
+
             hasWon = true;
-            wonDogs.Add(dog);
+            if (hasWon) StopRace(hound);
+            break;
         }
-
-        if (hasWon) StopRace(wonDogs);
-
     }
 
-    private void StopRace(ArrayList dogs)
+    private void StopRace(Greyhound wonHound)
     {
         _timer.Stop();
 
-        Dog? wonDog = null;
-        int wonDistance = 0;
-
-        foreach (Dog dog in dogs)
-        {
-            if (dog.Distance > wonDistance)
-            {
-                wonDistance = dog.Distance;
-                wonDog = dog;
-            }
-        }
-
         Console.WriteLine();
-        
-        // Ik weet dat u dit niet leuk vind, maar ik was gewoon nieuwsgierig of dit zou werken of niet.
-        foreach (var guy in _guys) guy.Bet.Payout(wonDog);
+
+        foreach (Guy guy in _guys) guy.Bet.Payout(wonHound);
 
         Console.WriteLine("Press any key to stop.");
     }

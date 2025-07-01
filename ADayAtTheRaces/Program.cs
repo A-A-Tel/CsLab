@@ -4,7 +4,7 @@ internal static class Program
 {
     private static void Main()
     {
-        Dog[] dogs =
+        Greyhound[] hounds =
         [
             new("Henry"),
             new("Bobby"),
@@ -17,9 +17,9 @@ internal static class Program
             new("Senna", 100, 50, "Bobby"),
             new("Stark", 100, 50, "Billy")
         ];
-        
-        Track track = new(dogs, guys);
-        
+
+        Track track = new(hounds, guys);
+
         track.StartRace();
     }
 }
