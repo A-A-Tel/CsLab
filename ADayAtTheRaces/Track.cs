@@ -1,63 +1,61 @@
-using System.Timers;
-using Timer = System.Timers.Timer;
-
 namespace ADayAtTheRaces;
+
+using System.Timers;
 
 public class Track
 {
-    private const int TrackLength = 250;
-    private readonly Guy[] _guys;
-
-    private readonly Greyhound[] _hounds;
-
+    public const int TrackLength = 100;
     private readonly Timer _timer = new(1000);
 
-    public Track(Greyhound[] hounds, Guy[] guys)
+    private readonly Greyhound[] _dogs;
+    private readonly Guy[] _guys;
+
+    public Track(Greyhound[] dogs, Guy[] guys)
     {
-        _hounds = hounds;
+        _dogs = dogs;
         _guys = guys;
 
-        _timer.Elapsed += CycleHounds;
+        _timer.Elapsed += CycleDogs;
         _timer.AutoReset = true;
         _timer.Enabled = true;
+
+        foreach (Greyhound dog in dogs)
+        {
+            dog.TrackLength = TrackLength;
+        }
     }
 
     public void StartRace()
     {
         Console.WriteLine("Starting race...");
         _timer.Start();
-
-        foreach (Greyhound hound in _hounds) hound.ResetDistance();
-
-        while (_timer.Enabled) Console.ReadLine();
+        
+        while(_timer.Enabled) Console.ReadLine();
     }
 
-    private void CycleHounds(object? source, ElapsedEventArgs? e)
+    private void CycleDogs(object? source, ElapsedEventArgs? e)
     {
-        bool hasWon = false;
-
-        Console.WriteLine("--------------------------");
-        foreach (Greyhound hound in _hounds)
+        Console.WriteLine("-------------------------");
+        foreach (Greyhound dog in _dogs)
         {
-            hound.Run();
-            Console.WriteLine($"Dog {hound.Id}: {hound.Distance}/{TrackLength}");
-
-            if (hound.Distance < TrackLength) continue;
-
-            hasWon = true;
-            if (hasWon) StopRace(hound);
-            break;
+            if (dog.Run())
+            {
+                StopRace(dog);
+                break;
+            }
+            Console.WriteLine($"Dog {dog.Id}: {dog.Location}/{TrackLength}");
         }
     }
 
-    private void StopRace(Greyhound wonHound)
+    private void StopRace(Greyhound dog)
     {
         _timer.Stop();
+        Console.WriteLine("-------------------------");
+        Console.WriteLine($"Dog {dog.Id} has won the Race! ({dog.Location}/{TrackLength})");
 
-        Console.WriteLine();
-
-        foreach (Guy guy in _guys) guy.Bet.Payout(wonHound);
-
-        Console.WriteLine("Press any key to stop.");
+        foreach (Guy guy in _guys)
+        {
+            guy.Collect(dog.Id);
+        }
     }
 }

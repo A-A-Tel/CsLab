@@ -1,34 +1,29 @@
+using System.Globalization;
+
 namespace ADayAtTheRaces;
 
 public class Bet
 {
-    private const int AmountMultiplier = 2;
-    private readonly int _amount;
-    private readonly string _dogId;
-    private readonly Guy _guy;
+    private const int BetMultiplier = 0;
+    
+    public int Amount;
+    public int Dog;
+    public Guy Bettor;
 
-    public Bet(Guy guy, int amount, string dogId)
+    public Bet(Guy bettor)
     {
-        _guy = guy;
-        _amount = amount;
-        _dogId = dogId;
+        Bettor = bettor;
     }
 
     public string GetDescription()
     {
-        return _amount == 0
-            ? $"{_guy.Name} has not placed a bet."
-            : $"{_guy.Name} has placed a bet of {_amount} on {_dogId}";
+        return Amount == 0
+            ? $"{Bettor.Name} has not placed a bet."
+            : $"{Bettor.Name} has placed a bet of {Amount} on dog number {Dog}.";
     }
 
-    public int Payout(Greyhound dog)
+    public int PayOut(int winner)
     {
-        if (dog.Id != _dogId) return 0;
-
-        int winAmount = _amount * AmountMultiplier;
-
-        Console.WriteLine("--------------------------");
-        Console.WriteLine($"{dog.Id} has won the race, making {_guy.Name} the winner. He has won {winAmount}.");
-        return winAmount;
+        return winner == Dog ? Amount * BetMultiplier : -Amount;
     }
 }
