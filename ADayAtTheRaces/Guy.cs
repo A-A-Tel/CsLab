@@ -1,21 +1,39 @@
 namespace ADayAtTheRaces;
 
-public class Guy
-{
-    public string Name { get; private set; }
+public class Guy {
+    public string Name; 
+    public Bet Bet;
+    public int Cash;
 
-    public Bet Bet { get; private set; }
-    private int _money;
-
-    public Guy(string name, int money, int betAmount, string dogId)
+    public Guy(string name, int cash)
     {
         Name = name;
-        _money = money - betAmount;
-        Bet = new Bet(this, betAmount, dogId);
+        Bet = new Bet(this);
+        Cash = cash;
     }
 
-    public void GiveMoney(int amount)
+    public void ClearBet()
     {
-        _money += amount;
+        Bet.Amount = 0;
+    }
+    
+    public bool PlaceBet(int betAmount, int dogToWin)
+    {
+        if (betAmount > Cash) return false;
+
+        Bet.Amount = betAmount;
+        Bet.Dog = dogToWin;
+        
+        return true;
+    }
+    
+    public void Collect(int winner) 
+    { 
+        Cash -= Bet.PayOut(winner);
+    }
+
+    public void PrintBetDescription()
+    {
+        Console.WriteLine(Bet.GetDescription());
     }
 }

@@ -1,18 +1,29 @@
+using System.Globalization;
+
 namespace ADayAtTheRaces;
 
-public readonly struct Bet(Guy guy, int amount, string dogId)
+public class Bet
 {
-    private const int AmountMultiplier = 2;
+    private const int BetMultiplier = 0;
+    
+    public int Amount;
+    public int Dog;
+    public Guy Bettor;
 
-    public void Payout(Dog? dog)
+    public Bet(Guy bettor)
     {
-        if (dog is null) return;
-        if (dog.Id != dogId) return;
+        Bettor = bettor;
+    }
 
-        int winAmount = amount * AmountMultiplier;
-        
-        Console.WriteLine("--------------------------");
-        Console.WriteLine($"{dog.Id} has won the race, making {guy.Name} the winner. He has won {winAmount}.");
-        guy.GiveMoney(winAmount);
+    public string GetDescription()
+    {
+        return Amount == 0
+            ? $"{Bettor.Name} has not placed a bet."
+            : $"{Bettor.Name} has placed a bet of {Amount} on dog number {Dog}.";
+    }
+
+    public int PayOut(int winner)
+    {
+        return winner == Dog ? Amount * BetMultiplier : -Amount;
     }
 }
